@@ -22,6 +22,7 @@
 
 package com.glTron.Game;
 
+import java.lang.ref.WeakReference;
 import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -29,6 +30,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.glTron.R;
 import com.glTron.Game.Camera.CamType;
@@ -87,6 +89,10 @@ public class GLTronGame {
 	float mEngineSoundModifier = 1.0f;
 	long mEngineStartTime = 0;
 	
+	public interface HyprMXCallback{
+		public void onGameLost();
+	}
+	
 	// Font
 	HUD tronHUD;
 	
@@ -108,13 +114,21 @@ public class GLTronGame {
 	// Preferences
 	public static UserPrefs mPrefs;
 	
-	public GLTronGame()
+	Context superContext;
+	final HyprMXCallback hyprCallback;
+	//HyprMXCallback callback;
+	public GLTronGame(HyprMXCallback callback)
 	{
+		//this.wr = new WeakReference<GLTronGame.HyprMXCallback>(callback);
+		this.hyprCallback = callback;
+		
 		initWalls();
 	}
 	
 	public void initialiseGame()
 	{
+		
+		
 		int player;
 		
 		// Load sounds
@@ -583,7 +597,15 @@ public class GLTronGame {
 		{
 			if(!boOwnPlayerActive && boOtherPlayersActive)
 			{
+				Log.v("into","game was lost");
 				tronHUD.displayLose();
+				Log.v("into","games weres not won");
+				
+				//HyprMXCallback callback = wr.get();
+				if(hyprCallback!=null){
+					Log.v("intr","gonna callback");
+					hyprCallback.onGameLost();
+				}
 			}
 			else if(boOwnPlayerActive && !boOtherPlayersActive)
 			{

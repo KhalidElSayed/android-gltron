@@ -22,15 +22,21 @@
 
 package com.glTron;
 
+import com.glTron.Game.GLTronGame.HyprMXCallback;
+import com.hyprmx.android.activities.HyprMXActivity;
+import com.hyprmx.android.sdk.HyprMXHelper;
+import com.hyprmx.android.sdk.api.data.Offer;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class glTron extends Activity {
+public class glTron extends HyprMXActivity implements HyprMXCallback {
     /** Called when the activity is first created. */
 	private OpenGLView _View;
 	
@@ -39,8 +45,9 @@ public class glTron extends Activity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        
-		WindowManager w = getWindowManager();
+    	HyprMXHelper.getInstance(this, "-60", "1", "3");
+    	
+    	WindowManager w = getWindowManager();
 	    Display d = w.getDefaultDisplay();
 	    int width = d.getWidth();
 	    int height = d.getHeight();
@@ -98,4 +105,45 @@ public class glTron extends Activity {
         }
         return super.onKeyUp(keyCode, event);
     }
+
+
+    boolean splashScreenDisplayed = false;
+    
+	@Override
+	public void onGameLost() {
+		Log.v("intr","on game is has lost been");
+		if (!splashScreenDisplayed) {
+			HyprMXHelper.getInstance().displaySplashScreen(this, null);
+		}
+		splashScreenDisplayed = true;
+	}
+
+
+	@Override
+	public void onNoContentAvailable() {
+		Log.v("intr","no content available");
+		splashScreenDisplayed = true;
+	}
+
+
+	@Override
+	public void onOfferCancelled(Offer arg0) {
+		Log.v("intr","offer canceled");
+		// TODO Auto-generated method stub
+		splashScreenDisplayed = true;
+	}
+
+
+	@Override
+	public void onOfferCompleted(Offer arg0) {
+		Log.v("intr","offer completed");
+		splashScreenDisplayed = true;
+	}
+
+
+	@Override
+	public void onUserOptedOut() {
+		Log.v("intr","Opted out.");
+		splashScreenDisplayed = true;
+	}
 }

@@ -32,21 +32,24 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.glTron.Game.GLTronGame;
+import com.glTron.Game.GLTronGame.HyprMXCallback;
 
 public class OpenGLRenderer implements GLSurfaceView.Renderer {
 
-	GLTronGame Game = new GLTronGame();
+	
 	
 	Context mContext;
-	
+	HyprMXCallback callback;
 	String Debug;
 	StringBuffer sb = new StringBuffer(40);
-
+	GLTronGame Game;
 	private int frameCount = 0;
 	
 	public OpenGLRenderer(Context context, int win_width, int win_height)
 	{
 		mContext = context;
+		callback = (HyprMXCallback) context;
+		Game = new GLTronGame(callback);
 		Log.e("GLTRON", "Renderer Constructor: Create Video Object");
 		Debug = sb.append("Screen size = ").append(win_width).append(",").append(win_height).toString();
 		Log.e("GLTRON", Debug);

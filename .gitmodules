@@ -1,0 +1,3 @@
+[submodule "HyprMX-Mobile-Android-SDK"]
+	path = HyprMX-Mobile-Android-SDK
+	url = https://github.com/HyprMXMobile/HyprMX-Mobile-Android-SDK.git
