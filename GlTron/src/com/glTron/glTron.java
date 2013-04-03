@@ -43,6 +43,7 @@ public class glTron extends HyprMXActivity implements HyprMXCallback {
 	private Boolean _FocusChangeFalseSeen = false;
 	private Boolean _Resume = false;
 	
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	HyprMXHelper.getInstance(this, "-60", "1", "3");
@@ -108,42 +109,43 @@ public class glTron extends HyprMXActivity implements HyprMXCallback {
 
 
     boolean splashScreenDisplayed = false;
+    public static boolean glTronRestarted = true;
     
 	@Override
 	public void onGameLost() {
 		Log.v("intr","on game is has lost been");
-		if (!splashScreenDisplayed) {
+		if (!splashScreenDisplayed && glTronRestarted) {
 			HyprMXHelper.getInstance().displaySplashScreen(this, null);
+			splashScreenDisplayed = true;
+			glTronRestarted = false;
 		}
-		splashScreenDisplayed = true;
 	}
 
 
 	@Override
 	public void onNoContentAvailable() {
 		Log.v("intr","no content available");
-		splashScreenDisplayed = true;
+		splashScreenDisplayed = false;
 	}
-
 
 	@Override
 	public void onOfferCancelled(Offer arg0) {
 		Log.v("intr","offer canceled");
 		// TODO Auto-generated method stub
-		splashScreenDisplayed = true;
+		splashScreenDisplayed = false;
 	}
 
 
 	@Override
 	public void onOfferCompleted(Offer arg0) {
 		Log.v("intr","offer completed");
-		splashScreenDisplayed = true;
+		splashScreenDisplayed = false;
 	}
 
 
 	@Override
 	public void onUserOptedOut() {
 		Log.v("intr","Opted out.");
-		splashScreenDisplayed = true;
+		splashScreenDisplayed = false;
 	}
 }

@@ -33,6 +33,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import com.glTron.R;
+import com.glTron.glTron;
 import com.glTron.Game.Camera.CamType;
 import com.glTron.Sound.SoundManager;
 import com.glTron.Video.*;
@@ -357,6 +358,7 @@ public class GLTronGame {
 		
 		if(boProcessReset)
 		{
+			glTron.glTronRestarted = true;
 			// refresh preferences
 			mPrefs.ReloadPrefs();
 			mCurrentPlayers = mPrefs.NumberOfPlayers();
